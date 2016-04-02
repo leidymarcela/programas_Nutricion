@@ -1,0 +1,49 @@
+{% extends 'static.html' %}
+{% block title%}LOGIN{%endblock %}
+
+{%  block content %}
+
+<!-- Main Content -->
+<div class="container initial">
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li class="active">Ingresar</li>
+    </ol>
+
+    <div class="box_signin">
+        <form class="form-signin" action="" method="post">}
+            {% csrf_token %}
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+            <h2 class="form-signin-heading text-center">Ingresar</h2>
+
+            <hr />
+            <p>¿Todavía no te has registrado? <a href="{% url 'contact' %}">Regístrate!</a></p>
+            <label for="exampleInputEmail1">correo</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="correo"></h4>
+            <label for="exampleInputPassword1">contraseña</label>
+            <input type="password" name="clave" class="form-control" id="exampleInputPassword1" placeholder="contraseña"></h4>
+            <div class="checkbox">
+
+                <label>
+                    <bel>input type="checkbox" value="remember-me"> Recordarme
+                </la
+            </div>
+            <br />
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
+            </p>
+                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+
+
+<hr>
+{% endblock %}

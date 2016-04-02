@@ -1,0 +1,72 @@
+{% extends 'static.html' %}
+{% block title%} PAGINA INICIAL {%endblock %}
+
+{%  block content %}
+
+    <!-- Main Content -->
+    <div class="container initial">
+    <ol class="breadcrumb">
+        <li class="active">Inicio</li>
+    </ol>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview">
+                    <a href="{% url 'post' %}">
+                        <h2 class="post-title">
+                            Recuperacion nutrcional
+                        </h2>
+                        <h3 class="post-subtitle">
+
+                        </h3>
+                    </a>
+                    <p class="post-meta">hecho para <a href="#">PROGRAMAS DE NUTRICION</a> en marzo 12, 2016</p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <a href="{% url 'post' %}">
+                        <h2 class="post-title">
+                            Desayunos infantiles con amor
+                        </h2>
+                    </a>
+                    <p class="post-meta">dirigido por <a href="#">PROGRAMAS DE NUTRICION</a> en marzo 12, 2016</p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <a href="{% url 'post' %}">
+                        <h2 class="post-title">
+                            Nutrir
+                        </h2>
+                        <h3 class="post-subtitle">
+
+                        </h3>
+                    </a>
+                    <p class="post-meta">es uno de los <a href="#">PROGRAMAS DE NUTRICION</a> en marzo 12, 2016</p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <a href="{% url 'post' %}">
+                        <h2 class="post-title">
+                            Girardot avanza por una alimentacion saludable
+                        </h2>
+                        <h3 class="post-subtitle">
+                           
+                        </h3>
+                    </a>
+                    <p class="post-meta">lo implementaran <a href="#">PROGRAMAS DE NUTRICION</a> en marzo 12, 20164</p>
+                </div>
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    <li class="next">
+                        <a href="#">volver &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+  {% endblock %}
