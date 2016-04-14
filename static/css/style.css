@@ -14,7 +14,7 @@ body {
 
 }
 .fondo{
-    background: url(../img/fondorosa.jpg)repeat;
+    background: url('../img/fondorosa.jpg')repeat;
 }
 .breadcrumb {
     padding: 8px 15px;
@@ -44,7 +44,7 @@ hr.small {
     color: rgba(7, 9, 44, 0.87);
 }
 .intro-header {
-    background-image: url('../img/encabazado6.jpg');
+    background-image: url('static/img/encabazado6.jpg');
     background-color: #808080;
     background: no-repeat center center;
     background-attachment: scroll;
