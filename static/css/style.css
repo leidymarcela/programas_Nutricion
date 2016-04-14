@@ -1,0 +1,68 @@
+
+
+.navbar-inverse {
+    background-color: rgba(204, 147, 145, 0.59);
+    border-color: #d2cf6a;
+}
+body {
+    font-family: "Helvetica Neue",Leelawadee, 'Times New Roman', serif,Lora, 'Times New Roman', serif,sans-serif;
+    font-size: 16px;
+    line-height: 1.42857143;
+    color: rgba(116, 46, 10, 0.87);
+    /*
+    background-color: #999999;*/
+
+}
+.fondo{
+    background: url(../img/fondorosa.jpg)repeat;
+}
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: rgba(204, 147, 145, 0.35);
+    border-radius: 4px;
+}
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #e8eed8;
+}
+
+
+hr.small {
+    max-width: 100px;
+    margin: 15px auto;
+    border-width: 4px;
+    border-color: #fff;
+}
+.site-heading{
+    font-family: "sans-serif";
+    font-size: 80px;
+    line-height:5;
+    color: rgba(7, 9, 44, 0.87);
+}
+.intro-header {
+    background-image: url('../img/encabazado6.jpg');
+    background-color: #808080;
+    background: no-repeat center center;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    margin-bottom: 50px;
+}
+.intro-header .site-heading,
+.intro-header .post-heading,
+.intro-header .page-heading {
+    padding: 100px 0 50px;
+    color: #07092c;
+}
+
+
+
+
+
+

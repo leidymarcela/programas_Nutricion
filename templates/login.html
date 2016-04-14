@@ -11,8 +11,12 @@
         <li class="active">Ingresar</li>
     </ol>
 
+    {% if error %}
+      <div class="alert alert-danger"> {{ error }} </div>
+    {% endif %}
+
     <div class="box_signin">
-        <form class="form-signin" action="" method="post">}
+        <form class="form-signin" action="" method="post">
             {% csrf_token %}
 
             <div class="container-fluid">
@@ -23,16 +27,11 @@
 
             <hr />
             <p>¿Todavía no te has registrado? <a href="{% url 'contact' %}">Regístrate!</a></p>
-            <label for="exampleInputEmail1">correo</label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="correo"></h4>
-            <label for="exampleInputPassword1">contraseña</label>
-            <input type="password" name="clave" class="form-control" id="exampleInputPassword1" placeholder="contraseña"></h4>
-            <div class="checkbox">
+            <label for="id_usuario">Usuario</label>
+            <input type="text" name="usuario" class="form-control" id="id_usuario" placeholder="correo"></h4>
+            <label for="id_clave">Contraseña</label>
+            <input type="password" name="clave" class="form-control" id="id_clave" placeholder="contraseña"></h4>
 
-                <label>
-                    <bel>input type="checkbox" value="remember-me"> Recordarme
-                </la
-            </div>
             <br />
             <p class="text-center">
                 <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
@@ -45,5 +44,5 @@
     </div>
 
 
-<hr>
+
 {% endblock %}
