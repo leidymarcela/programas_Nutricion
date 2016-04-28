@@ -32,7 +32,9 @@
 
 </head>
 
-<body class="fondo">
+<body>
+
+
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse">
@@ -46,27 +48,50 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{% url 'index' %}">PROGRAMAS DE NUTRICION</a>
+             <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'search' %}">
+                <div class="input-group">
+                    <input type="text" name="filter" class="form-control" id ="txtBuscar" placeholder="Buscar por ...">
+                    <span class="input-group-btn">
+                      <button id="btnBuscar"  class="btn btn-default" type="submit">Ir!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </form>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="{% url 'index' %}">inicio</a>
+                    <a href="{% url 'index' %}">Inicio</a>
                 </li>
-                <li>
-                    <a href="{% url 'about' %}">Quienes somos</a>
-                </li>
-                <li>
-                    <a href="{% url 'post' %}">Sample Post</a>
-                </li>
+
                 <li>
                     <a href="{% url 'contact' %}">Registrarse</a>
                 </li>
                 <li>
                     <a href="{% url 'login' %}">login</a>
+
                 </li>
             </ul>
+                     <ul class="nav navbar-nav navbar-right">
+              {% if user.is_anonymous %}
+
+                  <li>
+                    <a href="{% url 'login' %}" >
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Ingrese
+                    </a>
+                  </li>
+              {% else %}
+                  <li>
+                   <a href="{% url 'login' %}" >
+                      Bienvenid@, {{ user }}
+                    </a>
+                  </li>
+              {% endif %}
+
+
+            </ul>
+        </div><!--/.nav-collapse -->
         </div>
         <!-- /.navbar-collapse -->
     </div>
@@ -77,6 +102,7 @@
   {%  block content %}
 
   {% endblock %}
+
 
   <!-- dinamico -->
 <div><!--container -->
@@ -94,6 +120,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/static/js/clean-blog.min.js"></script>
+</div>
 </div>
 
 </body>

@@ -23,9 +23,9 @@ from trabajo_final.views import *
 urlpatterns = [
     url(r'^$',index, name='index'), # /
     url(r'^contact$', contact, name='contact'),
-    url(r'^about$',about, name='about'), #/about
+    url(r'^home$',home, name='home'), #/about
     url(r'^login$',login, name='login'),
-     url('^search$', login, name='search'),
+     url('^search$', search, name='search'),
     url(r'^post$',post, name='post'),
     url(r'^admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),

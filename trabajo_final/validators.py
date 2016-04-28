@@ -7,7 +7,7 @@ class Validator(object):
     required =[]
     _message = ''
 
-    def _init_(self,post):
+    def __init__(self,post):
 
         self._post = post
 
@@ -24,10 +24,10 @@ class Validator(object):
                 self._message = 'el campo %s no puede ser vacio' % field
                 return False
 
-            return True
+        return True
 
-        def getMessage(self):
-            return self._message
+    def getMessage(self):
+        return self._message
 
 class FormRegistroValidator(Validator):
 
@@ -37,6 +37,7 @@ class FormRegistroValidator(Validator):
         #validar que las contraseñas sehan iguales
         if not self._post['password1'] == self._post['password2']:
             self._message = 'Las contraseñas no  coinciden'
+
             return False
 
         if Usuario.objects.filter(email = self._post('email')).exists():
@@ -55,8 +56,8 @@ class FormLoginValidator(Validator):
         usuario = self._post['usuario']
         clave = self._post['clave']
 
-        acceso = auth.authenticate(username = usuario, password = clave )
-        if acceso is None:
+        self.acceso = auth.authenticate(username = usuario, password = clave )
+        if self.acceso is None:
             self._message = 'Usuario o contraseña inválido'
             return False
         return True

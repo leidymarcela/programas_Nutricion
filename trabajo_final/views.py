@@ -6,13 +6,15 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import NON_FIELD_ERRORS
 from .validators import FormRegistroValidator,FormLoginValidator
-
+from trabajo_final.models import beneficiario
 #Create your views here.
 
 def index(request):
     """view principal
     """
-    return render_to_response('index.html', context_instance = RequestContext(request) )
+
+    beneficiarios = beneficiario.objects.all()
+    return render_to_response('index.html',  {'beneficiarios': beneficiarios }, context_instance = RequestContext(request) )
 
 def login(request):
     """view del login
@@ -37,18 +39,31 @@ def login(request):
     return render_to_response('login.html', context_instance = RequestContext(request))
 
 
+
+from django.db.models import Q
 def search(request):
     """view de los resultados de busqueda
     """
-    return render_to_response('login.html')
+    beneficiarios = None
+    filter = None
+    if 'filter' in request.GET.keys():
+        filter = request.GET['filter']
+        qset = ( Q( nnmbre__icontains = filter) |
+                Q( apellido__icontains = filter) |
+                Q( documento__icontains = filter)
+                )
+        beneficiarios = beneficiario.objects.filter(qset)
+
+    return render_to_response('post.html', {'beneficiarios': beneficiario, 'filtro': filter  }, context_instance = RequestContext(request))
 
 @login_required(login_url="/login")
-
-
-def about(request):
-    """view del acerca de ...
+def home(request):
+    """view de los resultados de busqueda
     """
-    return render_to_response('about.html')
+    return render_to_response('about.html', context_instance = RequestContext(request))
+
+
+
 def post(request):
     """view principal
     """
@@ -68,7 +83,7 @@ def logout(request):
 
 from django.contrib.auth.hashers import make_password
 from .models import Usuario
-from validators import Validator
+
 def contact(request):
     """view del profile
     """
@@ -76,13 +91,12 @@ def contact(request):
     error = False
     if request.method == 'POST':
         validator = FormRegistroValidator(request.POST)
-        validator.required = ['nombre', 'apellidos', 'email','password1']
+        validator.required = ['nombre', 'email','password1','password2']
 
         if validator.is_valid():
             usuario = Usuario()
             #p = Persona.objects.get(documento = '123123123321')
             usuario.first_name = request.POST['nombre']
-            usuario.last_name = request.POST['apellidos']
             usuario.username = request.POST['email']
             usuario.email = request.POST['email']
             usuario.password = make_password(request.POST['password1'])
