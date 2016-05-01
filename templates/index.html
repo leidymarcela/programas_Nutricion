@@ -8,28 +8,38 @@
         <li class="active">Resultados de la búsqueda</li>
     </ol>
 
-    <div class="alert alert-success" role="alert">
-
-        {% if beneficiarios.count == 1 %}
-        <p class="alert-link">Resultados encontrados por "{{ filtro }}"  {{ beneficiarios.count }} Persona encontrada</p>
-
-        {% elif beneficiarios.count > 1 %}
-        <p class="alert-link">Resultados encontrados por "{{ filtro }}"  {{ beneficiarios.count }} Personas encontradas</p>
-        {% else%}
-        <p class="alert-link">En total {{ beneficiarios.count }} Encontrados</p>
-        {% endif %}
 
 
-    </div>
- <div class="row placeholders">
-    {% for beneficiario in beneficiarios %}
-
-        <div class="col-sm-3 placeholder">
-            <h4 ><a href="index.html">{{ beneficiario.nombres }}</a></h4>
-            <span class="text-muted">{{ beneficiario.documento }}</span>
-        </div>
-
-     {% endfor %}
+ <div class="pagination-centered">
+    <nav>
+        <ul class="pagination">
+            <li>
+              {% if beneficiarios.has_previous %}
+                <a href="{% url 'search' %}?filter={{filtro}}&page={{ beneficiarios.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+              {% else %}
+              <a href="{% url 'search' %}?filter={{filtro}}&page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+              </a>
+              {% endif %}
+            </li>
+            {% for page in paginador.page_range %}
+            <li><a href="{% url 'search' %}?filter={{filtro}}&page={{ page }}">{{ page}}</a></li>
+            {% endfor %}
+            <li>
+                {% if beneficiarios.has_next %}
+                <a href="{% url 'search' %}?filter={{filtro}}&page={{ beneficiario.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                {% else %}
+                <a href="{% url 'search' %}?filter={{filtro}}&page={{ paginador.num_pages }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                {% endif%}
+            </li>
+        </ul>
+    </nav>
 
  </div><!-- Main Content -->
 
@@ -82,18 +92,16 @@
                         <h2 class="post-title">
                             Girardot avanza por una alimentacion saludable
                         </h2>
-                        <h3 class="post-subtitle">
-                           
-                        </h3>
+
                     </a>
 
                 </div>
-                <hr>
+
                 <!-- Pager -->
             </div>
         </div>
     </div>
 
-    <hr>
+
 
   {% endblock %}

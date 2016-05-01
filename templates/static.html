@@ -68,26 +68,15 @@
                 <li>
                     <a href="{% url 'contact' %}">Registrarse</a>
                 </li>
-                <li>
-                    <a href="{% url 'login' %}">login</a>
-
-                </li>
             </ul>
                      <ul class="nav navbar-nav navbar-right">
-              {% if user.is_anonymous %}
+
 
                   <li>
                     <a href="{% url 'login' %}" >
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Ingrese
                     </a>
                   </li>
-              {% else %}
-                  <li>
-                   <a href="{% url 'login' %}" >
-                      Bienvenid@, {{ user }}
-                    </a>
-                  </li>
-              {% endif %}
 
 
             </ul>

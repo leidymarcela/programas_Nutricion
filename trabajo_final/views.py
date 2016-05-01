@@ -5,16 +5,16 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import NON_FIELD_ERRORS
-from .validators import FormRegistroValidator,FormLoginValidator
-from trabajo_final.models import beneficiario
+from .validators import FormRegistroValidator,FormLoginValidator,FormpostValidator
+from django.contrib.auth.models import User, Group
 #Create your views here.
 
 def index(request):
     """view principal
     """
 
-    beneficiarios = beneficiario.objects.all()
-    return render_to_response('index.html',  {'beneficiarios': beneficiarios }, context_instance = RequestContext(request) )
+
+    return render_to_response('index.html', context_instance = RequestContext(request) )
 
 def login(request):
     """view del login
@@ -41,6 +41,8 @@ def login(request):
 
 
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
 def search(request):
     """view de los resultados de busqueda
     """
@@ -48,13 +50,24 @@ def search(request):
     filter = None
     if 'filter' in request.GET.keys():
         filter = request.GET['filter']
-        qset = ( Q( nnmbre__icontains = filter) |
+        qset = ( Q( name__icontains = filter) |
                 Q( apellido__icontains = filter) |
                 Q( documento__icontains = filter)
                 )
-        beneficiarios = beneficiario.objects.filter(qset)
+        l_beneficiarios = beneficiario.objects.filter(qset)
+        paginador = Paginator( l_beneficiarios, 2)
+        page = 1
+        if 'page' in request.GET:
+            page = request.GET['page']
+        try:
+           beneficiarios = paginador.page(page)
+        except EmptyPage:
+            beneficiarios = paginador.page( paginador.num_pages)
+        except PageNotAnInteger:
+            raise Http404("Pagina no encontrada")
 
-    return render_to_response('post.html', {'beneficiarios': beneficiario, 'filtro': filter  }, context_instance = RequestContext(request))
+
+        return render_to_response('post.html', {'beneficiarios': beneficiario, 'filtro': filter  }, context_instance = RequestContext(request))
 
 @login_required(login_url="/login")
 def home(request):
@@ -63,16 +76,38 @@ def home(request):
     return render_to_response('about.html', context_instance = RequestContext(request))
 
 
-
+from .models import beneficiario
 def post(request):
     """view principal
     """
-    return render_to_response('post.html' )
+    error = False
+    if request.method == 'POST':
+        validator = FormpostValidator(request.POST)
+        validator.required = ['name','apellido','documento','numero_documento','direccion','barrio','genero','fecha_de_nacimiento','eps',]
 
-def contacto(request):
-    """view del profile
-    """
-    return render_to_response('contact.html')
+        if validator.is_valid():
+            beneficiarios = beneficiario()
+            #p = Persona.objects.get(documento = '123123123321')
+            beneficiario.name = request.POST['name']
+            beneficiario.apellido= request.POST['apellido']
+            beneficiario.documento = request.POST['documento']
+            beneficiario.numero_documento = request.POST['numero_documento']
+            beneficiario.direccion = request.POST['direccion']
+            beneficiario.barrio= request.POST['barrio']
+            beneficiario.genero = request.POST['genero']
+            beneficiario.fecha_de_nacimiento = request.POST['fecha_de_nacimiento']
+            beneficiario.eps = request.POST['eps']
+
+            #TODO: ENviar correo electronico para confirmar cuenta
+            beneficiario.is_active = True
+            beneficiarios = beneficiario()
+            return render_to_response('post.html', {'success': True  } , context_instance = RequestContext(request))
+        else:
+            return render_to_response('post.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
+        # Agregar el usuario a la base de datos
+    return render_to_response('post.html', context_instance = RequestContext(request))
+
+
 
 @login_required(login_url="/login") # Protegemos la vista con el decorador del loguin para que solo pueda ingresar un usuario logueado
 def logout(request):
@@ -84,6 +119,7 @@ def logout(request):
 from django.contrib.auth.hashers import make_password
 from .models import Usuario
 
+
 def contact(request):
     """view del profile
     """
@@ -91,20 +127,36 @@ def contact(request):
     error = False
     if request.method == 'POST':
         validator = FormRegistroValidator(request.POST)
-        validator.required = ['nombre', 'email','password1','password2']
+        validator.required = ['name', 'email','password1','password2']
 
         if validator.is_valid():
-            usuario = Usuario()
+            usuario = User()
             #p = Persona.objects.get(documento = '123123123321')
-            usuario.first_name = request.POST['nombre']
-            usuario.username = request.POST['email']
+            usuario.first_name = request.POST['name']
+            usuario.username = request.POST['name']
             usuario.email = request.POST['email']
             usuario.password = make_password(request.POST['password1'])
             #TODO: ENviar correo electronico para confirmar cuenta
             usuario.is_active = True
+            #perfil = Group.objects.get(id = 3) # carga un perfil de tipo usuario
             usuario.save()
+            #usuario.groups.add( perfil )
+            usuario.save()
+
+            #myusuario = Usuario()
+            #myusuario.id = usuario
+            #myusuario.sexo = request.POST['sexo']
+            #myusuario.save()
+
             return render_to_response('contact.html', {'success': True  } , context_instance = RequestContext(request))
         else:
             return render_to_response('contact.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
         # Agregar el usuario a la base de datos
     return render_to_response('contact.html', context_instance = RequestContext(request))
+
+@login_required(login_url='/login')
+def regster(request):
+    if request.user.groups.filter(id = 2).exists():
+        return render_to_response('post.html', context_instance = RequestContext(request))
+    else:
+        return HttpResponseRedirect('/login')

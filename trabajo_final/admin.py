@@ -6,6 +6,6 @@ from trabajo_final.models import beneficiario
 @admin.register(beneficiario)
 class beneficiarioAdmin(admin.ModelAdmin):
 
-   list_display = ('nombres','apellido','documento','direccion')
-   search_fields =  ('nombres','apellido','documento')
+   list_display = ('name','apellido','documento','numero_documento','direccion','barrio','genero','fecha_de_nacimiento','eps')
+   search_fields =  ('name','apellido','documento')
 

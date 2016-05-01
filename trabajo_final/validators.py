@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from .models import Usuario
 from django.contrib import auth
+from .models import beneficiario
 
 class Validator(object):
     _post = None
@@ -32,6 +33,7 @@ class Validator(object):
 class FormRegistroValidator(Validator):
 
     def is_valid(self):
+
         if not super(FormRegistroValidator, self).is_valid():
             return False
         #validar que las contraseñas sehan iguales
@@ -40,7 +42,7 @@ class FormRegistroValidator(Validator):
 
             return False
 
-        if Usuario.objects.filter(email = self._post('email')).exists():
+        if Usuario.objects.filter(email = self._post[('email')]).exists():
             self._message = 'El correo electrónico ya se encuentra registrado'
             return False
         #Por ultimo retornamos que en caso de que todo marche bien es correcto el formulario
@@ -61,3 +63,17 @@ class FormLoginValidator(Validator):
             self._message = 'Usuario o contraseña inválido'
             return False
         return True
+
+class FormpostValidator(Validator):
+
+    def is_valid(self):
+
+        if not super(FormpostValidator, self).is_valid():
+            return False
+
+        if beneficiario.objects.filter(numero_documento = self._post[('numero_documento')]).exists():
+            self._message = 'la persona ya se encuentra registrada'
+            return False
+        #Por ultimo retornamos que en caso de que todo marche bien es correcto el formulario
+        return True
+
