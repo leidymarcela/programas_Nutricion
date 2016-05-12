@@ -75,5 +75,11 @@ class FormpostValidator(Validator):
             self._message = 'la persona ya se encuentra registrada'
             return False
         #Por ultimo retornamos que en caso de que todo marche bien es correcto el formulario
+
+        if self._post['comuna'] == '0':
+            return False
+
+        if self._post['barrio'] == '0':
+            return False
         return True
 

@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^contact$', contact, name='contact'),
     url(r'^home$',home, name='home'), #/about
     url(r'^login$',login, name='login'),
-     url('^search$', search, name='search'),
+    url('^search$', search, name='search'),
+    url('^barrio$', barrios, name='barrio'),
     url(r'^post$',post, name='post'),
     url(r'^admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),

@@ -1,14 +1,14 @@
 
 
 .navbar-inverse {
-    background-color: rgba(204, 147, 145, 0.59);
+    background-color: 	#008080;
     border-color: #d2cf6a;
 }
 body {
     font-family: "Helvetica Neue",Leelawadee, 'Times New Roman', serif,Lora, 'Times New Roman', serif,sans-serif;
     font-size: 16px;
     line-height: 1.42857143;
-    color: rgba(116, 46, 10, 0.87);
+    color: #000;
     /*
     background-color: #999999;*/
 
@@ -20,14 +20,14 @@ body {
     padding: 8px 15px;
     margin-bottom: 20px;
     list-style: none;
-    background-color: rgba(204, 147, 145, 0.35);
+    background-color: 	#fff;
     border-radius: 4px;
 }
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 0;
-    border-top: 1px solid #e8eed8;
+    border-top: 1px solid #fff;
 }
 
 

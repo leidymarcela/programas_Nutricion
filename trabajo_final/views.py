@@ -2,11 +2,16 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.contrib import auth
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import NON_FIELD_ERRORS
 from .validators import FormRegistroValidator,FormLoginValidator,FormpostValidator
 from django.contrib.auth.models import User, Group
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
+from django.core import  serializers
+from .models import beneficiario,programa,Barrio,Comuna,tipoDocumento
 #Create your views here.
 
 def index(request):
@@ -40,9 +45,7 @@ def login(request):
 
 
 
-from django.db.models import Q
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import Http404
+
 def search(request):
     """view de los resultados de busqueda
     """
@@ -50,6 +53,7 @@ def search(request):
     filter = None
     if 'filter' in request.GET.keys():
         filter = request.GET['filter']
+
         qset = ( Q( name__icontains = filter) |
                 Q( apellido__icontains = filter) |
                 Q( documento__icontains = filter)
@@ -69,6 +73,7 @@ def search(request):
 
         return render_to_response('post.html', {'beneficiarios': beneficiario, 'filtro': filter  }, context_instance = RequestContext(request))
 
+
 @login_required(login_url="/login")
 def home(request):
     """view de los resultados de busqueda
@@ -76,36 +81,48 @@ def home(request):
     return render_to_response('about.html', context_instance = RequestContext(request))
 
 
-from .models import beneficiario
+
+def barrios(request):
+    barrio =  Barrio.objects.filter(comuna_id = request.GET['comuna'])
+    data = serializers.serialize('json', barrio, fields=('id','name'))
+    return HttpResponse( data , content_type ='application/json' )
+
+
 def post(request):
+    programas=programa.objects.all()
+    documentos = tipoDocumento.objects.all()
+
     """view principal
     """
     error = False
+    comunas = Comuna.objects.all()
+    barrios = Barrio.objects.all()
     if request.method == 'POST':
         validator = FormpostValidator(request.POST)
-        validator.required = ['name','apellido','documento','numero_documento','direccion','barrio','genero','fecha_de_nacimiento','eps',]
+        validator.required = ['name','apellido','documentos','numero_documento','direccion','barrios','comunas','genero','fecha_de_nacimiento','eps','programass']
 
         if validator.is_valid():
             beneficiarios = beneficiario()
             #p = Persona.objects.get(documento = '123123123321')
             beneficiario.name = request.POST['name']
             beneficiario.apellido= request.POST['apellido']
-            beneficiario.documento = request.POST['documento']
+            beneficiario.documento_id = request.POST['documentos']
             beneficiario.numero_documento = request.POST['numero_documento']
             beneficiario.direccion = request.POST['direccion']
-            beneficiario.barrio= request.POST['barrio']
+            beneficiario.barrio_id= request.POST['barrios']
             beneficiario.genero = request.POST['genero']
             beneficiario.fecha_de_nacimiento = request.POST['fecha_de_nacimiento']
             beneficiario.eps = request.POST['eps']
+            beneficiario.programa_id = request.POST['programass']
 
             #TODO: ENviar correo electronico para confirmar cuenta
             beneficiario.is_active = True
             beneficiarios = beneficiario()
-            return render_to_response('post.html', {'success': True  } , context_instance = RequestContext(request))
+            return render_to_response('post.html', {'success': True} , context_instance = RequestContext(request))
         else:
             return render_to_response('post.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
         # Agregar el usuario a la base de datos
-    return render_to_response('post.html', context_instance = RequestContext(request))
+    return render_to_response('post.html',{'programas':programas, 'barrios':barrios,'comunas':comunas,'documentos':documentos}, context_instance = RequestContext(request))
 
 
 

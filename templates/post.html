@@ -1,10 +1,82 @@
-{% extends 'static.html' %}
-{% block title%} post {%endblock %}
+ <!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
 
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/google.css" rel='stylesheet' type='text/css'>
+    <link href="/static/css/css.css" rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>-->
+    <script src="/static/js/html5shiv.js"></script>
+    <script src="/static/js/respond.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <![endif]-->
+
+</head>
+
+<body >
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">PROGRAMAS DE NUTRICION</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+
+
+                  <li>
+                   <a>
+                      Bienvenid@, {{ user }}
+                    </a>
+                  </li>
+
+                    <li>
+                   <a href="{% url 'login' %}" >
+                      Salir
+                    </a>
+                  </li>
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
 {%  block content %}
 <!-- Post Content -->
-    <div class="container initial">
+
+<div class="container initial">
 <ol class="breadcrumb">
         <li><a href="#">Inicio</a></li>
         <li class="active">Resultados de la búsqueda</li>
@@ -44,84 +116,109 @@
 
 <form id="registrationForm" method="post" class="form-horizontal mitad" action="#">
                             {% csrf_token %}
-           <div><h2><p class="text-center"> Formulario de registro</p></h2> </div><br>
-    					<div class="form-group">
-					<div class="form-group">
-                        	<div class="form-group">
-                                <label class="col-lg-3 control-label">PROGRAMA</label>
+
+    <h2><p class="text-center"> Formulario de registro</p></h2><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6.col-sm-4"></div>
+                <div class="form-group">
+                                <label class="col-lg-4 control-label">PROGRAMA</label>
 						<div class="col-lg-4">
-							  <select class="form-control ">
-                          <option>Desallunos infantiles con amor </option>
-                          <option>Recuperacion nutricional</option>
-                          <option>seguridad alimentaria</option>
-                          <option>Nutrir</option>
+							  <select class="form-control " name="programass">
+                                  <option value="0">programas </option>
+                                  {% for row in programas %}
+                                          <option value="{{ row.id }}"> {{ row.name }}</option>
+                                  {% endfor %}
+
                               </select>
 						</div>
-	 			 </div>
+	 			     </div>
 
 					<div class="form-group">
-						<label class="col-lg-3 control-label">Nombres</label>
+						<label class="col-lg-4 control-label">Nombres</label>
 						<div class="col-lg-4">
 							<input type="text" class="form-control" name="name" />
 						</div>
 					</div>
 
 					 <div class="form-group">
-						<label class="col-lg-3 control-label">Apellidos</label>
+						<label class="col-lg-4 control-label">Apellidos</label>
 						<div class="col-lg-4">
 							<input type="text" class="form-control" name="apellido" />
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="col-lg-3 control-label">Tipo de Documento</label>
+						<label class="col-lg-4 control-label">Tipo de Documento</label>
 						<div class="col-lg-4">
 							  <select class="form-control" name="documento">
-                          <option>cedula </option>
-                          <option>registro civil</option>
-                          <option>targeta de identidad</option>
+                             <option value="0">tipo de documento </option>
+                                  {% for row in documentos %}
+                                          <option value="{{ row.id }}"> {{ row.name }}</option>
+                                  {% endfor %}
                               </select>
 						</div>
-	 			 </div>
+	 			     </div>
 
                 	<div class="form-group">
-						<label class="col-lg-3 control-label">Numero de documento</label>
+						<label class="col-lg-4 control-label">Numero de documento</label>
 						<div class="col-lg-4">
 							<input type="text" class="form-control" name="numero_documento" />
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="col-lg-3 control-label">direccion</label>
+						<label class="col-lg-4 control-label">direccion</label>
 						<div class="col-lg-4">
 							<input type="text" class="form-control" name="direccion" />
 						</div>
 					</div>
 
+                    <div class="form-group">
+			 		    <label class="col-lg-4 control-label">Comuna</label>
+						<div class="col-lg-4">
+                            <select class="form-control" name="comunas" id="comuna">
+                                 <option value="0">comunas </option>
+                                    {% for comuna in comunas %}
+                                        <option value="{{ comuna.id }}"> {{comuna.name }}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+			 		    <label class="col-lg-4 control-label">Barrio</label>
+						<div class="col-lg-4">
+                            <select class="form-control" name="barrios" id="barrio">
+
+                                 <option value="0">barrios </option>
+                            </select>
+                        </div>
+                    </div>
 					<div class="form-group">
-		<label class="col-lg-3 control-label">Fecha de Nacimiento</label>
-		<div class="col-lg-4">
-				<input type="date" class="form-control" name="fecha_de_nacimiento" id="datetimepicker" data-date-format="YYYY-MM-DD" />
-		 </div>
-			</div>
-                  <div class="form-group">
-						<label class="col-lg-3 control-label">E.P.S</label>
+		                <label class="col-lg-4 control-label">Fecha de Nacimiento</label>
+		                <div class="col-lg-4">
+                            <input type="date" class="form-control" name="fecha_de_nacimiento"  data-date-format="YYYY-MM-DD" />
+		                </div>
+                    </div>
+
+                    <div class="form-group">
+						<label class="col-lg-4 control-label">E.P.S</label>
 						<div class="col-lg-4">
 							  <select class="form-control" name="eps">
                           <option>regimen subsidiado</option>
                           <option>regimen contributivo</option>
                               </select>
 						</div>
-	 			 </div>
+	 			     </div>
 
 					<div class="form-group">
-						<label class="col-lg-3 control-label">Genero</label>
-						<div class="col-lg-9">
+						<label class="col-lg-4 control-label">Genero</label>
+						<div class="col-lg-8">
 							<div class="radio">
 								<label>
 									<input type="radio" name="genero" value="M" /> Masculino
 								</label>
-							</div>
+                            </div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="genero" value="F" /> Femenino
@@ -129,28 +226,35 @@
 							</div>
 						</div>
 					</div>
-
-
-			 	 </div>
-                  <div class="form-group">
-			 		 <label class="col-lg-3 control-label">Barrio</label>
-						<div class="col-lg-4">
-                    <select class="form-control" name="barrio">
-                        <option>centenario</option>
-
-                        </select><br>
-                    </div>
-
                 <div class="form-group">
-						<div class="col-lg-9 col-lg-offset-3">
+						<div class="col-lg-8 col-lg-offset-4">
 							<button type="submit" class="btn btn-success left">Registrar</button>
 						</div>
-					</div>
-                      </div>
-				</form>
+                </div>
+</div>
+</div>
+</form>
 
+<script>
+  $("#comuna").change(
+    function(){
+       $.ajax({
+         data: {'id':name},
+         url: 'barrio?comuna='+ this.value, // la URL para la petición
+         type: 'GET', // especifica si será una petición POST o GET
+         success : function(data) { // código a ejecutar si la petición es satisfactoria;
+              $("#barrio").html("<option value'0'>-- Indica de que barrio eres --</option>" );
+              for ( var i =0; i < data.length; i++)
+              {
+                $("#barrio").append("<option value='"+ data[i].pk +"'>"+ data[i].fields.name +"</option>" );
+              }
+          }
+        });
 
+  });
+</script>
 
+    </body>
 {% endblock %}
 
 

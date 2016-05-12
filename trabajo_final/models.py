@@ -7,28 +7,41 @@ from django.contrib.auth.models import User
 
 lst_sexo=(("M","masculino"),("F","femenino"))
 
+class Comuna(models.Model):
+    name = models.CharField(max_length=70)
 
 class Barrio(models.Model):
-    barrio=models.CharField(max_length=50)
+    comuna = models.ForeignKey(Comuna)
+    name = models.CharField(max_length=70)
 
-    def __unicode__(self):
-        return self.barrio
+class claseEps(models.Model):
+   name = models.CharField(max_length=70)
+
 class eps(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=70)
+    #claseEps = models.ForeignKey(claseEps)
 
+class programa(models.Model):
+    name = models.CharField(max_length=120)
+    def __unicode__(self):
+        return self.name
+
+class tipoDocumento(models.Model):
+    name = models.CharField(max_length=120)
     def __unicode__(self):
         return self.name
 
 class beneficiario(models.Model):
     name = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
-    documento = models.CharField(max_length=20)
+    documento = models.ForeignKey(tipoDocumento)
     numero_documento = models.CharField(max_length=20)
     direccion = models.CharField(max_length=50)
     barrio= models.ForeignKey(Barrio)
     genero = models.CharField(max_length=1,choices=lst_sexo)
     fecha_de_nacimiento = models.DateField()
     eps = models.ForeignKey(eps)
+    programa= models.ForeignKey(programa)
 
 
     class Meta:
@@ -38,11 +51,6 @@ class beneficiario(models.Model):
     def __unicode__(self):
         return self.name
 
-
-class programa(models.Model):
-    name = models.CharField(max_length=120)
-    def __unicode__(self):
-        return self.name
 
 class funcionario(models.Model):
     name = models.CharField(max_length=50)
