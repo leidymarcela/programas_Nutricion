@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-
+<title>{% block title %}perfil{% endblock %}</title>
 
 
     <!-- Bootstrap Core CSS -->
@@ -51,20 +51,6 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-
-
-                <li>
-                    <a href="{% url 'index' %}">inicio</a>
-                </li>
-
-                <li>
-                    <a href="{% url 'post' %}">Registrar Beneficiario</a>
-                </li>
-
-            </ul>
-
-
-            <ul class="nav navbar-nav navbar-right">
               {% if user.is_anonymous %}
 
                   <li>
@@ -76,44 +62,75 @@
 
                   <li>
                    <a>
-                      Bienvenid@, {{ user }}
+                      Bienvenid@
                     </a>
                   </li>
 
-                    <li>
-                   <a href="{% url 'login' %}" >
-                      Salir
-                    </a>
+
+                   <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Mi perfil</a></li>
+                          <li><a href="{% url 'post' %}">Registrar Beneficiario</a></li>
+                          <li><a href="{% url 'index' %}">Lista de Beneficiarios</a></li>
+                          <li><a href="{% url 'buscar' %}">Buscar Beneficiario</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="{% url 'login' %}">Cerrar sesión</a></li>
+
+                        </ul>
                   </li>
+
+
               {% endif %}
             </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+      </div>
     </div>
+        <!-- /.navbar-collapse -->
+
     <!-- /.container -->
 </nav>
-<div class="container initial">
-  <!-- dinamico -->
 
-  <!-- dinamico -->
-<div><!--container -->
 
-        <!-- Main Content -->
 <div class="container initial">
     <ol class="breadcrumb">
         <li><a href="{% url 'index' %}">Inicio</a></li>
         <li class="active"> MI PERFIL</li>
     </ol>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<dir><dir>
+			<div class="col-sm-6 col-md-3">
+				<a href="#" class="thumbnail">
+					<img src="/static/img/foto.perfil.jpg" alt="..." class="img-rounded">
+      	</a>
+			</div>
+			<form method="post" action="{% url 'me' %}">
+				<div class="col-sm-6 col-md-3">
+      		<div class="form-group">
+    				<label for="exampleInputEmail1">Nombre</label>
+    				<input type="Text" class="form-control" name="username" value="{{ usuario.username }}">
+  				</div>
+					<div class="form-group">
+    				<label for="exampleInputEmail1">Apellido</label>
+    				<input type="Text" class="form-control" name="first_name" value="{{ usuario.fir }}">
+  				</div>
+                    </div>
+			</form>
+                </dir></dir>
+	 </div>
+  </div>
+</div>
 
 
 
-    <div class="row">
 
 
-        <div class="col-lg-4">
-            <img src="/static/img/foto.perfil.jpg" alt="imagen de marcador genérico">
 
-            <h2>{{ user }}</h2>
+
 
 
 

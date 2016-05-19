@@ -29,6 +29,8 @@
     <!--[if lt IE 9]>-->
     <script src="/static/js/html5shiv.js"></script>
     <script src="/static/js/respond.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/jquery.js"></script>
     <![endif]-->
 
 </head>
@@ -48,29 +50,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'index' %}">PROGRAMAS DE NUTRICION</a>
-             <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'search' %}">
-                <div class="input-group">
-                    <input type="text" name="filter" class="form-control" id ="txtBuscar" placeholder="Buscar por ...">
-                    <span class="input-group">
-                      <button id="btnBuscar"  class="" type="submit">Ir!</button>
-                    </span>
-                </div><!-- /input-group -->
-            </form>
+            <a class="navbar-brand" href="#">PROGRAMAS DE NUTRICION</a>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
+<!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="{% url 'index' %}">Inicio</a>
-                </li>
+              {% if user.is_anonymous %}
 
                 <li>
                     <a href="{% url 'contact' %}">Registrarse</a>
                 </li>
-            </ul>
-                     <ul class="nav navbar-nav navbar-right">
 
 
                   <li>
@@ -78,13 +68,35 @@
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Ingrese
                     </a>
                   </li>
+              {% else %}
 
+                  <li>
+                   <a>
+                      Bienvenid@
+                    </a>
+                  </li>
+
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Mi perfil</a></li>
+                            <li><a href="{% url 'post' %}">Registrar Beneficiario</a></li>
+                            <li><a href="{% url 'index' %}">Lista de Beneficiarios</a></li>
+                            <li><a href="{% url 'buscar' %}">Buscar Beneficiario</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{% url 'login' %}">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                  </ul>
+
+              {% endif %}
 
             </ul>
-        </div><!--/.nav-collapse -->
         </div>
-        <!-- /.navbar-collapse -->
     </div>
+        <!-- /.navbar-collapse -->
+
     <!-- /.container -->
 </nav>
 <div class="container initial">

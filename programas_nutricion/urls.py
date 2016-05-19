@@ -17,17 +17,23 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from trabajo_final.views import *
-
+from django.conf.urls import patterns
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
-    url(r'^$',index, name='index'), # /
+    url(r'^index$',index, name='index'), # /
     url(r'^contact$', contact, name='contact'),
     url(r'^home$',home, name='home'), #/about
-    url(r'^login$',login, name='login'),
+    url(r'^$',login, name='login'),
     url('^search$', search, name='search'),
     url('^barrio$', barrios, name='barrio'),
     url(r'^post$',post, name='post'),
+    url(r'^listado_programas', listado_programas, name='programa'),
     url(r'^admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^buscar$',buscar, name='buscar'),
+    url(r'^programas$',programas, name='programas'),
+    url('^me$', me, name = 'me' ),
 ]

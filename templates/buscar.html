@@ -1,0 +1,127 @@
+{% extends 'static.html' %}
+{% block title%} buscar{%endblock %}
+
+{%  block content %}
+<!-- Post Content -->
+
+
+            <form class="form-horizontal" role="form" method="get" action="{% url 'search' %}">
+                 <div class="row">
+            <div class="col-xs-6.col-sm-4"></div>
+            <div class="form-group">
+                    <label class="col-lg-4 control-label"></label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="name" value="{{ filtro }}" >
+                     <button class="btn btn-default" type="button">Buscar<i class="glyphicon qlyphicon-search"></i></button>
+                </div>
+            </div>
+                </div>
+            </form>
+
+        <form id="registrationForm" method="post" class="form-horizontal mitad" action="{%url 'search' %}">
+                                        {% csrf_token %}
+            <div class="row">
+            <div class="col-xs-6.col-sm-4"></div>
+
+            <div class="form-group">
+                    <label class="col-lg-4 control-label">programa</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="name" value="{{ beneficiario.programa }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Nombres</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="name" value="{{ beneficiario.name }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Apellidos</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="apellido" value="{{ beneficiario.apellido }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Tipo de Documento</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="name" value="{{ beneficiario.documento }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Numero de documento</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="numero_documento" value="{{ beneficiario.numero_documento }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">direccion</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="direccion" value="{{ beneficiario.direccion }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Barrio</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="name" value="{{ beneficiario.barrio }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Fecha de Nacimiento</label>
+                <div class="col-lg-4">
+                    <input type="date" class="form-control" name="fecha_de_nacimiento"  data-date-format="YYYY-MM-DD" value="{{ beneficiario.fecha_de_nacimiento }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">E.P.S</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="eps" value="{{ beneficiario.eps }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Genero</label>
+                <div class="col-lg-8">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="genero"  value="M{{ beneficiario.genero }}"> Masculino
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="genero" value="F{{ beneficiario.genero}}"> Femenino
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+         </form>
+    </div>
+    </div>
+
+<script>
+  $("#comuna").change(
+    function(){
+       $.ajax({
+         data: {'id':name},
+         url: 'barrio?comuna='+ this.value, // la URL para la petición
+         type: 'GET', // especifica si será una petición POST o GET
+         success : function(data) { // código a ejecutar si la petición es satisfactoria;
+              $("#barrio").html("<option value'0'>-- Indica de que barrio eres --</option>" );
+              for ( var i =0; i < data.length; i++)
+              {
+                $("#barrio").append("<option value='"+ data[i].pk +"'>"+ data[i].fields.name +"</option>" );
+              }
+          }
+        });
+
+  });
+</script>
+
+    </body>
+{% endblock %}
+
+
+
+
+<body>
+
+</body>

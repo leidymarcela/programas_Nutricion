@@ -1,3 +1,5 @@
+
+
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -5,21 +7,19 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import NON_FIELD_ERRORS
-from .validators import FormRegistroValidator,FormLoginValidator,FormpostValidator
+from .validators import FormRegistroValidator,FormLoginValidator,FormPostValidator
 from django.contrib.auth.models import User, Group
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.core import  serializers
-from .models import beneficiario,programa,Barrio,Comuna,tipoDocumento
+from .models import beneficiario,programa,Barrio,Comuna,tipoDocumento,funcionario
+from validators import  Validator
 #Create your views here.
-
-def index(request):
-    """view principal
+def buscar(request):
+    """view de los resultados de busqueda
     """
-
-
-    return render_to_response('index.html', context_instance = RequestContext(request) )
+    return render_to_response('buscar.html', context_instance = RequestContext(request))
 
 def login(request):
     """view del login
@@ -43,6 +43,12 @@ def login(request):
 
     return render_to_response('login.html', context_instance = RequestContext(request))
 
+def index(request):
+    """view principal
+    """
+
+
+    return render_to_response('index.html', context_instance = RequestContext(request) )
 
 
 
@@ -56,22 +62,12 @@ def search(request):
 
         qset = ( Q( name__icontains = filter) |
                 Q( apellido__icontains = filter) |
-                Q( documento__icontains = filter)
+                Q( numero_documento__icontains = filter)
                 )
-        l_beneficiarios = beneficiario.objects.filter(qset)
-        paginador = Paginator( l_beneficiarios, 2)
-        page = 1
-        if 'page' in request.GET:
-            page = request.GET['page']
-        try:
-           beneficiarios = paginador.page(page)
-        except EmptyPage:
-            beneficiarios = paginador.page( paginador.num_pages)
-        except PageNotAnInteger:
-            raise Http404("Pagina no encontrada")
+        beneficiarios = beneficiario.objects.filter(qset)
 
 
-        return render_to_response('post.html', {'beneficiarios': beneficiario, 'filtro': filter  }, context_instance = RequestContext(request))
+        return render_to_response('buscar.html', {'numero_documento': numero_documento, 'filtro': filter  }, context_instance = RequestContext(request))
 
 
 @login_required(login_url="/login")
@@ -80,14 +76,14 @@ def home(request):
     """
     return render_to_response('about.html', context_instance = RequestContext(request))
 
-
-
 def barrios(request):
     barrio =  Barrio.objects.filter(comuna_id = request.GET['comuna'])
     data = serializers.serialize('json', barrio, fields=('id','name'))
     return HttpResponse( data , content_type ='application/json' )
 
 
+from django.db import transaction
+@transaction.atomic
 def post(request):
     programas=programa.objects.all()
     documentos = tipoDocumento.objects.all()
@@ -98,26 +94,25 @@ def post(request):
     comunas = Comuna.objects.all()
     barrios = Barrio.objects.all()
     if request.method == 'POST':
-        validator = FormpostValidator(request.POST)
+        validator = FormPostValidator(request.POST)
         validator.required = ['name','apellido','documentos','numero_documento','direccion','barrios','comunas','genero','fecha_de_nacimiento','eps','programass']
 
         if validator.is_valid():
             beneficiarios = beneficiario()
             #p = Persona.objects.get(documento = '123123123321')
-            beneficiario.name = request.POST['name']
-            beneficiario.apellido= request.POST['apellido']
-            beneficiario.documento_id = request.POST['documentos']
-            beneficiario.numero_documento = request.POST['numero_documento']
-            beneficiario.direccion = request.POST['direccion']
-            beneficiario.barrio_id= request.POST['barrios']
-            beneficiario.genero = request.POST['genero']
-            beneficiario.fecha_de_nacimiento = request.POST['fecha_de_nacimiento']
-            beneficiario.eps = request.POST['eps']
-            beneficiario.programa_id = request.POST['programass']
+            beneficiarios.name = request.POST['name']
+            beneficiarios.apellido= request.POST['apellido']
+            beneficiarios.documento_id = request.POST['documentos']
+            beneficiarios.numero_documento = request.POST['numero_documento']
+            beneficiarios.direccion = request.POST['direccion']
+            beneficiarios.barrio_id= request.POST['barrios']
+            beneficiarios.genero = request.POST['genero']
+            beneficiarios.fecha_de_nacimiento = request.POST['fecha_de_nacimiento']
+            beneficiarios.eps = request.POST['eps']
+            beneficiarios.programa_id = request.POST['programass']
+            beneficiarios.is_active = True
+            beneficiarios.save()
 
-            #TODO: ENviar correo electronico para confirmar cuenta
-            beneficiario.is_active = True
-            beneficiarios = beneficiario()
             return render_to_response('post.html', {'success': True} , context_instance = RequestContext(request))
         else:
             return render_to_response('post.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
@@ -155,15 +150,9 @@ def contact(request):
             usuario.password = make_password(request.POST['password1'])
             #TODO: ENviar correo electronico para confirmar cuenta
             usuario.is_active = True
-            #perfil = Group.objects.get(id = 3) # carga un perfil de tipo usuario
-            usuario.save()
-            #usuario.groups.add( perfil )
+
             usuario.save()
 
-            #myusuario = Usuario()
-            #myusuario.id = usuario
-            #myusuario.sexo = request.POST['sexo']
-            #myusuario.save()
 
             return render_to_response('contact.html', {'success': True  } , context_instance = RequestContext(request))
         else:
@@ -177,3 +166,26 @@ def regster(request):
         return render_to_response('post.html', context_instance = RequestContext(request))
     else:
         return HttpResponseRedirect('/login')
+
+
+def listado_programas(request):
+    rows = beneficiario.objects.filter( programa_id =  request.GET['programa'])
+    return render_to_response('programas.html', {'rows': rows} , context_instance = RequestContext(request))
+
+
+def programas(request):
+     rows = beneficiario.objects.filter( programa_id =  request.GET['programa'])
+     return render_to_response('programas.html', {'rows': rows} , context_instance = RequestContext(request))
+
+@login_required(login_url="/login")
+def me(request):
+    """view del profile
+    """
+    # si el metodo get no encuentra un objeto genera una excepcion DoesNotExist
+
+
+    usuario = User.objects.get( id = request.user.id )
+
+    return render_to_response('about.html', { "usuario": usuario, } , context_instance = RequestContext(request))
+
+

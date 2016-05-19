@@ -64,11 +64,10 @@ class FormLoginValidator(Validator):
             return False
         return True
 
-class FormpostValidator(Validator):
+class FormPostValidator(Validator):
 
     def is_valid(self):
-
-        if not super(FormpostValidator, self).is_valid():
+        if not super(FormPostValidator, self).is_valid():
             return False
 
         if beneficiario.objects.filter(numero_documento = self._post[('numero_documento')]).exists():
@@ -76,10 +75,11 @@ class FormpostValidator(Validator):
             return False
         #Por ultimo retornamos que en caso de que todo marche bien es correcto el formulario
 
-        if self._post['comuna'] == '0':
+        if self._post['comunas'] == '0':
             return False
 
-        if self._post['barrio'] == '0':
+        if self._post['barrios'] == '0':
+            self._message = 'Escoja la barrio donde vives'
             return False
         return True
 

@@ -1,5 +1,5 @@
 {% extends 'static.html' %}
-{% block title%} PAGINA INICIAL {%endblock %}
+{% block title%} programas {%endblock %}
 
 {%  block content %}
 
@@ -30,7 +30,7 @@
                 </div>
                 <hr>
                 <div class="post-preview">
-                    <a href="#">
+                    <a href="{% url 'programas' %}">
                         <h2 class="post-title">
                             Desayunos infantiles con amor
                         </h2>
@@ -38,7 +38,7 @@
                 </div>
                 <hr>
                 <div class="post-preview">
-                    <a href="#">
+                    <a href="{% url 'programas' %}">
                         <h2 class="post-title">
                             Nutrir
                         </h2>
@@ -48,7 +48,7 @@
                     </a>
                 <hr>
                 <div class="post-preview">
-                    <a href="#">
+                    <a href="{% url 'programas' %}">
                         <h2 class="post-title">
                             Girardot avanza por una alimentacion saludable
                         </h2>

@@ -1,0 +1,15 @@
+{% extends 'static.html' %}
+{% block title%} lista de beneficiarios{%endblock %}
+
+
+
+<body>
+{% for row in rows %}
+
+{{ row.name }}
+
+
+
+{% endfor %}
+</body>
+  

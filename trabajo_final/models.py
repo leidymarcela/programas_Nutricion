@@ -14,13 +14,6 @@ class Barrio(models.Model):
     comuna = models.ForeignKey(Comuna)
     name = models.CharField(max_length=70)
 
-class claseEps(models.Model):
-   name = models.CharField(max_length=70)
-
-class eps(models.Model):
-    name = models.CharField(max_length=70)
-    #claseEps = models.ForeignKey(claseEps)
-
 class programa(models.Model):
     name = models.CharField(max_length=120)
     def __unicode__(self):
@@ -40,9 +33,8 @@ class beneficiario(models.Model):
     barrio= models.ForeignKey(Barrio)
     genero = models.CharField(max_length=1,choices=lst_sexo)
     fecha_de_nacimiento = models.DateField()
-    eps = models.ForeignKey(eps)
+    eps = models.CharField(max_length=50)
     programa= models.ForeignKey(programa)
-
 
     class Meta:
         verbose_name = 'beneficiario'
