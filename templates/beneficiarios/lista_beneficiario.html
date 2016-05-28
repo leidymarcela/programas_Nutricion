@@ -1,0 +1,123 @@
+{% extends 'plantilla_menu.html' %}
+
+{% block content %}
+    <div class="row">
+		<div class="col-lg-12 col-sm-12">
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-dashboard"></i>  <a href="/menu">Inicio</a>
+                </li>
+                <li>
+                    <i class="fa fa-folder-open"></i> Beneficiarios
+                </li>
+                <li class="active">
+                    <i class="fa fa-file"></i> listado
+                </li>
+            </ol>
+			<h1 class="page-header">
+				Listado de beneficiarios <small></small>
+			</h1>
+		</div>
+    </div>
+
+    <!-- /.row -->
+    <div class="col-lg-12">
+    <div class="row">
+        {% if indicador == 0 %}
+            <div class="alert alert-danger fade in" id="respuesta">
+                <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+        {% elif indicador == 1 %}
+            <div class="alert alert-success fade in" id="respuesta1">
+                <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+                <a class="btn btn-success" id="imprimir_lista">Imprimir</a>
+        {% elif indicador == 2 %}
+            <div class="alert alert-warning fade in" id="respuesta">
+                <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+        {% else %}
+            <div class="alert alert-info fade in" id="respuesta">
+                <i class="fa fa-info-circle"></i> <strong>  Favor complete los campos para realizar la busqueda</strong>
+        {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal" method="post" action="listar_beneficiarios">
+                {% csrf_token %}
+                <div class="col-xs-12 row form-group">
+                    <div class="col-sm-12">
+                        <div class="col-md-1">
+                            <label>Fecha inicial:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input name="fechainicial" id="" class="form-control fechanacimiento" type="text" required />
+                        </div>
+                        <div class="col-md-1">
+                            <label>Fecha final:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input name="fechafinal" id="" class="form-control fechanacimiento" type="text" required />
+                        </div>
+                        <div class="col-md-1">
+                            <label>Programa:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="programa" name="programa">
+                                <option value="">Seleccione</option>
+                                {% for p in programa %}
+                                    <option value="{{ p.id }}">{{ p.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                            <button class="btn btn-primary" id='buscar_lista' type="submit">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- /.panel central-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-clock-o fa-fw"></i> Resultado de la busqueda
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Tipo de Id</th>
+                                                <th>N° de Identificación</th>
+                                                <th>Fecha de nacimiento</th>
+                                                <th>Programa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for r in resultado %}
+                                            <tr>
+                                                <td>{{ r.name }} {{ r.apellido }}</td>
+                                                <td>{{ r.documento.name }}</td>
+                                                <td>{{ r.numero_documento }}</td>
+                                                <td>{{ r.fecha_de_nacimiento }}</td>
+                                                <td>{{ r.programa.name }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

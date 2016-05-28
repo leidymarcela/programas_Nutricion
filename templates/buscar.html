@@ -3,22 +3,29 @@
 
 {%  block content %}
 <!-- Post Content -->
-
-
-            <form class="form-horizontal" role="form" method="get" action="{% url 'search' %}">
+            <form class="form-horizontal" role="form"  name="beneficiarios" action="{% url 'search' %}" method="get">
                  <div class="row">
             <div class="col-xs-6.col-sm-4"></div>
             <div class="form-group">
-                    <label class="col-lg-4 control-label"></label>
+                    <label class="col-lg-4 control-label"> Buscar Beneficiario</label>
                 <div class="col-lg-4">
-                    <input type="text" class="form-control" name="name" value="{{ filtro }}" >
-                     <button class="btn btn-default" type="button">Buscar<i class="glyphicon qlyphicon-search"></i></button>
+                    <input type="text" class="form-control" name="documento" value="{{ filtro }}" >
+                     <button class="btn btn-default" name="filter" type="submit">Buscar<i class="glyphicon qlyphicon-search"></i></button>
                 </div>
             </div>
                 </div>
             </form>
 
-        <form id="registrationForm" method="post" class="form-horizontal mitad" action="{%url 'search' %}">
+                          <div class="row">
+
+                <div class="container initial">
+
+    {% if error %}
+    <div class="alert alert-danger"> {{ error }} </div>
+
+    {% endif %}
+
+        <form id="registrationForm" method="post" class="form-horizontal mitad" action="{%url 'buscar' %}">
                                         {% csrf_token %}
             <div class="row">
             <div class="col-xs-6.col-sm-4"></div>
@@ -38,7 +45,7 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label">Apellidos</label>
                 <div class="col-lg-4">
-                    <input type="text" class="form-control" name="apellido" value="{{ beneficiario.apellido }}">
+                    <input type="text" class="form-control" name="apellido" value="{{ beneficiario.apellido}}">
                 </div>
             </div>
             <div class="form-group">
@@ -97,31 +104,19 @@
     </div>
     </div>
 
-<script>
-  $("#comuna").change(
-    function(){
-       $.ajax({
-         data: {'id':name},
-         url: 'barrio?comuna='+ this.value, // la URL para la petición
-         type: 'GET', // especifica si será una petición POST o GET
-         success : function(data) { // código a ejecutar si la petición es satisfactoria;
-              $("#barrio").html("<option value'0'>-- Indica de que barrio eres --</option>" );
-              for ( var i =0; i < data.length; i++)
-              {
-                $("#barrio").append("<option value='"+ data[i].pk +"'>"+ data[i].fields.name +"</option>" );
-              }
-          }
-        });
+<div class="col-md-12"></div>
 
-  });
-</script>
+             <div class="col-md-9" style="text-align:right">
+                <a href="{% url 'buscar' %}">Recargar la página</a>
+            </div>
 
-    </body>
 {% endblock %}
 
+{% block scripts %}
+
+    
+
+    {% endblock %}
 
 
 
-<body>
-
-</body>

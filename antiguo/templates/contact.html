@@ -1,0 +1,75 @@
+{% extends 'static.html' %}
+{% block title%} REGISTRARSE {%endblock %}
+
+{%  block content %}
+
+
+
+    <!-- Main Content -->
+    <div class="container initial">
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li class="active">registrarse</li>
+        </ol>
+
+        {% if error %}
+          <div class="alert alert-danger"> {{ error }} </div>
+        {% endif %}
+        {% if success %}
+          <div class="alert alert-success"> Nuevo usuaro creado con éxito. Puede ingresar ahora </div>
+        {% endif %}
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div><h2><p class="text-center"> Registrarse</p></h2> </div><br>
+
+                <form name="sentMessage" id="contactForm" method="post" action="">
+                    {% csrf_token %}
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Nombre</label>
+                            <input type="text" name="name" class="form-control" placeholder="name" id="name" required data-validation-required-message="Please enter your name.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>correo </label>
+                            <input type="email" name="email" class="form-control" placeholder="correo" id="email" required data-validation-required-message="Please enter your email address.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>contraseña</label>
+                            <input type="password" name="password1" class="form-control" placeholder="contraseña" id="password1" required data-validation-required-message="Please enter your phone number.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                     <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>confirmar contraseña</label>
+                            <input type="password" name="password2" class="form-control" placeholder="contraseña" id="password2" required data-validation-required-message="Please enter your phone number.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="success"></div>
+                    <div class="row">
+                        <div>
+
+                            <p class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">registrar</button>
+                            </p>
+
+            </div>
+        </div>
+                    </form>
+    </div>
+</div>
+
+{% endblock %}

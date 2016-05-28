@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from .models import Usuario
 from django.contrib import auth
-from .models import beneficiario
+from .models import Beneficiario
 
 class Validator(object):
     _post = None
@@ -55,10 +55,10 @@ class FormLoginValidator(Validator):
         if not super(FormLoginValidator, self).is_valid():
             return False
 
-        usuario = self._post['usuario']
-        clave = self._post['clave']
+        username = self._post['username']
+        password = self._post['password']
 
-        self.acceso = auth.authenticate(username = usuario, password = clave )
+        self.acceso = auth.authenticate(username = username, password = password )
         if self.acceso is None:
             self._message = 'Usuario o contraseña inválido'
             return False
@@ -70,7 +70,7 @@ class FormPostValidator(Validator):
         if not super(FormPostValidator, self).is_valid():
             return False
 
-        if beneficiario.objects.filter(numero_documento = self._post[('numero_documento')]).exists():
+        if Beneficiario.objects.filter(numero_documento = self._post[('numero_documento')]).exists():
             self._message = 'la persona ya se encuentra registrada'
             return False
         #Por ultimo retornamos que en caso de que todo marche bien es correcto el formulario

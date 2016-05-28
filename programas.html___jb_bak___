@@ -1,0 +1,11 @@
+{% extends 'static.html' %}
+{% block title%} PAGINA INICIAL {%endblock %}
+
+{%  block content %}
+
+</head>
+<body>
+
+</body>
+  {% endblock %}
+</html>

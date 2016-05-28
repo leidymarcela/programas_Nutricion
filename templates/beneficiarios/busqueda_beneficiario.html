@@ -1,0 +1,223 @@
+{% extends 'plantilla_menu.html' %}
+
+{% block content %}
+    <div class="row">
+		<div class="col-lg-12 col-sm-12">
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-dashboard"></i>  <a href="/menu">Inicio</a>
+                </li>
+                <li>
+                    <i class="fa fa-folder-open"></i> Beneficiarios
+                </li>
+                <li class="active">
+                    <i class="fa fa-file"></i> busqueda
+                </li>
+            </ol>
+			<h1 class="page-header">
+				Busqueda de beneficiarios <small></small>
+			</h1>
+		</div>
+    </div>
+    <!-- /.row -->
+
+    <div class="col-lg-12">
+    {% if indicador == 0 %}
+        <div class="alert alert-danger fade in" id="respuesta">
+            <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+    {% elif indicador == 1 %}
+        <div class="alert alert-success fade in" id="respuesta">
+            <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+    {% else %}
+        <div class="alert alert-info fade in" id="respuesta">
+            <i class="fa fa-info-circle"></i> <strong>  Favor diligencie los siguientes campos para almacenar su registro</strong>
+    {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="res">
+            <i class="fa fa-close"></i> <strong>  <label id="resp"></label></strong>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 form-group">
+                <div class="panel panel-default">
+                    <div class="panel-body form-container">
+                        <div class="col-xs-3">
+                            <label>Número de identificación:</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <input name="numero_documento" id="numid" class="form-control" type="text" />
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-primary" id="button_buscar" type="button">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- /.panel central-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-clock-o fa-fw"></i> Resultado de la busqueda
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-xs-12">
+                            <label>Nombre:</label>
+                            <p id="nombres"></p>
+                        </div>
+                        <div class="col-xs-12">
+                            <label>Documento:</label>
+                            <p id="documentos"></p>
+                        </div>
+                        <div class="col-xs-12">
+                            <label>programa:</label>
+                            <p id="programas"></p>
+                        </div>
+                        <div class="col-xs-12">
+                            <label>Fecha de registro:</label>
+                            <p id="fecha_de_registro"></p>
+                        </div>
+                        <div class="col-xs-12">
+                            <button class="btn btn-warning btn-lg btn-block" id="button_transferir" type="button">Modificar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- /.panel central-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-clock-o fa-fw"></i> Modificación de datos
+                    </div>
+                    <div class="panel-body form-container">
+                        <form class="form-horizontal" id="form-modificar" name="form-modificar" method="post" action="modificar_beneficiario">
+                        {% csrf_token %}
+                            <div class="col-sm-12 form-group">
+                                <div class="col-xs-12 form-group" style="display: none">
+                                    <div class="col-xs-3">
+                                        <label>Id:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <input name="ids" id="ids" class="form-control" type="text" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 form-group" >
+                                    <div class="col-xs-3">
+                                        <label>Programa:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="programa" name="programa" required>
+                                            <option value="">Seleccione</option>
+                                            {% for p in programa %}
+                                                <option value="{{ p.id }}">{{ p.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Nombre:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <input name="nombre" id="nombre" class="form-control" type="text" required />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Apellido:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <input name="apellido" id="apellido" class="form-control" type="text" required />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Tipo de documento:</label>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <select class="form-control" id="documento" name="documento" required>
+                                            <option value="">Seleccione</option>
+                                            {% for d in documento %}
+                                            <option value="{{ d.id }}">{{ d.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <label>Número:</label>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input class="form-control" name="numero_documento" id="numero_documento" type="text" required />
+                                    </div>
+                                </div>
+                                <div  class="col-xs-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Fecha de nacimiento:</label>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input class="form-control fechanacimiento" id="fecha_nacimiento" name="fecha_nacimiento" type="text" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Dirección:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <input class="form-control" id="direccion" name="direccion"  type="text" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Comuna:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="comunas" name="comuna" required>
+                                            <option value="">Seleccione</option>
+                                            {% for c in comuna %}
+                                                <option value="{{ c.id }}">{{ c.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Barrio:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" name="barrio" id="barrio">
+                                            <option value="0">Seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div  class="col-xs-12 form-group">
+                                    <div class="col-xs-3">
+                                        <label>Eps:</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="eps" name="eps" required>
+                                            <option value="">Seleccione</option>
+                                            {% for e in eps %}
+                                                <option value="{{ e.id }}">{{ e.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button id="guardar" class="btn btn-success btn-lg btn-block" type="submit">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

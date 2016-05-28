@@ -1,0 +1,47 @@
+{% extends 'plantilla_menu.html' %}
+
+{% block content %}
+    <div class="row">
+		<div class="col-lg-12 col-sm-12">
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-dashboard"></i>  <a href="/menu">Inicio</a>
+                </li>
+                <li>
+                    <i class="fa fa-folder-open"></i> Usuarios
+                </li>
+                <li class="active">
+                    <i class="fa fa-file"></i> Registro
+                </li>
+            </ol>
+			<h1 class="page-header">
+				Registro de Usuarios del sistema <small></small>
+			</h1>
+		</div>
+    </div>
+
+    <!-- /.row -->
+    <div class="col-lg-12">
+        <div class="row">
+        {% if indicador == 0 %}
+            <div class="alert alert-danger fade in" id="respuesta">
+                <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+        {% elif indicador == 1 %}
+            <div class="alert alert-success fade in" id="respuesta">
+                <i class="fa fa-info-circle"></i> <strong>  {{ respuesta }}</strong>
+        {% else %}
+            <div class="alert alert-info fade in" id="respuesta">
+                <i class="fa fa-info-circle"></i> <strong>  Favor diligencie los siguientes campos para almacenar su registro</strong>
+        {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+
+        </div>
+    </div>
+
+{% endblock %}

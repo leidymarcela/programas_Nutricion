@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>Informe</title>
+        <style>
+        /*@page {
+            size: ;
+        }*/
+        .text {
+            text-align: left;
+            font-weight: 800;
+            font-size: 8px;
+        }
+        .titulo{
+            text-align: center;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 8px;
+        }
+
+        .logo{
+            width: 20px;
+        }
+        .imagen {
+            width: 10px;
+            text-align: start;
+        }
+        .celda{
+            font-size: 7px;
+        }
+        .celda2{
+            width: 300px;
+        }
+        .div2{
+            float: left;
+        }
+        </style>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+               <th>Nombre</th>
+               <th>Identificación</th>
+               <th>Fecha de Nacimiento</th>
+               <th>Programa</th>
+            </tr>
+            {% for b in beneficiarios %}
+            <tr>
+                <td>{{ b.name }} {{ apellido }}</td>
+                <td>{{ b.documento }} {{ b.numero_documento }}</td>
+                <td>{{ b.fecha_de_nacimiento }}</td>
+                <td>{{ b.programa }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
