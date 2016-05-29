@@ -20,6 +20,9 @@ from StringIO  import StringIO
 from django.template.loader import render_to_string, get_template
 from programas_nutricion.settings import STATICFILES_DIRS
 import json
+from django.contrib.auth.hashers import make_password
+from .models import Usuario
+
 #import weasyprint
 
 #Create your views here.
@@ -248,7 +251,7 @@ def generate_PDF(request):
         context = {"beneficiarios": busqueda}
         html = template.render(RequestContext(request, context))
         response = HttpResponse(content_type='application/pdf')
-        weasyprint.HTML(string=html,base_url=request.build_absolute_uri()).write_pdf(response)
+        pisa(string=html,base_url=request.build_absolute_uri()).write_pdf(response)
 
         return response
     else:
@@ -261,6 +264,31 @@ def generate_PDF(request):
 @login_required(login_url="/")
 def crear_usuario(request):
 
+
+    error = False
+    if request.method == 'POST':
+        validator = FormRegistroValidator(request.POST)
+        validator.required = ['name','apellido', 'email','password1','password2']
+
+        if validator.is_valid():
+            usuario = User()
+            #p = Persona.objects.get(documento = '123123123321')
+            usuario.first_name = request.POST['name']
+            usuario.last_name = request.POST['apellido']
+            #usuario.username = request.POST['name']
+            usuario.email = request.POST['email']
+            usuario.password = make_password(request.POST['password1'])
+            #TODO: ENviar correo electronico para confirmar cuenta
+            usuario.is_active = True
+
+            usuario.save()
+
+
+            return render_to_response('usuarios/crear_usuario.html', {'success': True  } , context_instance = RequestContext(request))
+        else:
+            return render_to_response('usuarios/crear_usuario.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
+        # Agregar el usuario a la base de datos
+   #
     return render_to_response('usuarios/crear_usuario.html',{}, context_instance = RequestContext(request))
 
 
@@ -279,7 +307,7 @@ def pdf(f):
 @pdf
 def reportes(request):
     beneficiarios = Beneficiario.objects.get(id = request.GET['beneficiarios'])
-    return render_to_string("reportes.html", { 'beneficiario': Beneficiario, 'path': STATICFILES_DIRS[0]}) #obtenemos la plantilla
+    return render_to_string("plantilla_menu.html", { 'beneficiario': Beneficiario, 'path': STATICFILES_DIRS[0]}) #obtenemos la plantilla
 
 
 def buscar(request):
@@ -373,7 +401,8 @@ def contact(request):
 
     error = False
     if request.method == 'POST':
-        validator = FormRegistroValidator(request.POST)
+        #
+        # validator = FormRegistroValidator(request.POST)
         validator.required = ['name', 'email','password1','password2']
 
         if validator.is_valid():

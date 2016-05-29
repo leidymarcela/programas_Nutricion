@@ -79,7 +79,7 @@ class FormPostValidator(Validator):
             return False
 
         if self._post['barrios'] == '0':
-            self._message = 'Escoja la barrio donde vives'
+            self._message = 'Escoja el barrio donde vives'
             return False
         return True
 

@@ -37,11 +37,57 @@
         </div>
     </div>
     <!-- /.row -->
+  <form method="post" action="">
+      {% csrf_token %}
+      <div class="container-fluid">
+        <div class="row">
 
-    <div class="row">
-        <div class="col-lg-12">
+          <div class="col-md-3"></div>
+          <div class="col-md-5">
 
+            <div class="form-group">
+              <h4>
+                <label>Nombre</label>
+                <input type= "text" name="name" class="form-control" id="name" placeholder="nombre"></h4>
+            </div>
+            <div class="form-group">
+              <h4>
+                <label>Apellidos</label>
+                <input type = "text" name="apellidos" class="form-control" id="apellido" placeholder="apellidos"></h4>
+            </div>
+
+            <div class="form-group">
+              <h4>
+                <label>Correo</label>
+                <input type="email" name = "email" class="form-control" id="email" placeholder="correo"></h4>
+            </div>
+
+            <div class="form-group">
+              <h4>
+                <label>Contraseña</label>
+                <input type="password"  name = "password1" class="form-control" id="password1" placeholder="contraseña"></h4>
+            </div>
+
+            <div class="form-group">
+              <h4>
+                <label>Confirmar Contraseña</label>
+                <input type="password" name='password2' class="form-control" id="password2" placeholder="contraseña"></h4>
+            </div>
+
+            <div>
+              <p>
+                <button type="submit" class="btn btn-primary btn-lg pull-right">Registrarse</button>
+              </p>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </form>
+</div>
+
+
 
 {% endblock %}
+
+
+</div>

@@ -79,11 +79,18 @@ WSGI_APPLICATION = 'programas_nutricion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgres',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'ddfffuue731kg3',
+        'USER':'cbarbvwjascqvh',
+        'PASSWORD':'qK_-Jut6JZqpvU0RMiNx0rwcvr',
+        'HOST': 'ec2-23-21-148-9.compute-1.amazonaws.com',
+        'PORT':'5432',
     }
+
 }
 
 

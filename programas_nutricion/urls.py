@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^guardar_beneficiario$', guardar_beneficiario, name='guardar'),
     url(r'^modificar_beneficiario$', modificar_beneficiario, name='modificar_beneficiario'),
     url(r'^generar_pdf$', generate_PDF, name='lista_pdf'),
+    url(r'^pdf$', pdf, name='pdf'),
     url(r'^crear_usuario$', crear_usuario, name='crear usuario'),
     url('^barrio/$', buscar_barrios, name='barrio'),
 
