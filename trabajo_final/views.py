@@ -263,8 +263,6 @@ def generate_PDF(request):
 
 @login_required(login_url="/")
 def crear_usuario(request):
-
-
     error = False
     if request.method == 'POST':
         validator = FormRegistroValidator(request.POST)
@@ -275,7 +273,7 @@ def crear_usuario(request):
             #p = Persona.objects.get(documento = '123123123321')
             usuario.first_name = request.POST['name']
             usuario.last_name = request.POST['apellido']
-            #usuario.username = request.POST['name']
+            usuario.username = request.POST['name']
             usuario.email = request.POST['email']
             usuario.password = make_password(request.POST['password1'])
             #TODO: ENviar correo electronico para confirmar cuenta

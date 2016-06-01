@@ -1,1 +1,1 @@
-web:gunicom
+web: gunicorn prograheromasnutricion.wsgi
