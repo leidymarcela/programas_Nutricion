@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
         },
     },
 ]
@@ -133,7 +134,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [BASE_DIR + '/static']
-MEDIA_ROOT =  BASE_DIR + '/uploads'
+MEDIA_ROOT =  BASE_DIR + '/media'
 
 MEDIA_URL = '/media/'
 
@@ -142,3 +143,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'leidy1992@gmail.com'
 EMAIL_HOST_PASSWORD ='1070606971'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
