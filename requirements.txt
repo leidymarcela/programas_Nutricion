@@ -4,7 +4,7 @@ cffi==1.6.0
 cssselect==0.9.1
 dj-database-url==0.2.2
 dj-static==0.0.5
-Django==1.9.4
+Django==1.9.5
 django-tinymce==2.3.0
 gunicorn==18.0
 html5lib==0.9999999
@@ -22,3 +22,6 @@ tinycss==0.3
 WeasyPrint==0.28
 whitenoise==3.2
 xhtml2pdf==0.0.6
+wheel==0.24.0
+gunicorn==18.0
+wsgiref==0.1.2
