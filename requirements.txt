@@ -16,4 +16,5 @@ six==1.10.0
 tinycss==0.3
 WeasyPrint==0.28
 xhtml2pdf==0.0.6
-
+dj-static==0.0.5
+dj-database-url==0.2.2
