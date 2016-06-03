@@ -2,8 +2,11 @@ cairocffi==0.7.2
 CairoSVG==1.0.20
 cffi==1.6.0
 cssselect==0.9.1
+dj-database-url==0.2.2
+dj-static==0.0.5
 Django==1.9.4
 django-tinymce==2.3.0
+gunicorn==18.0
 html5lib==0.9999999
 lxml==3.6.0
 Pillow==3.1.1
@@ -11,10 +14,11 @@ pisa==3.0.33
 pycparser==2.14
 PyPDF2==1.26.0
 Pyphen==0.9.4
+pystache==0.5.4
 reportlab==3.3.0
 six==1.10.0
+static==1.0.2
 tinycss==0.3
 WeasyPrint==0.28
+whitenoise==3.2
 xhtml2pdf==0.0.6
-dj-static==0.0.5
-dj-database-url==0.2.2
