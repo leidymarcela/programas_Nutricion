@@ -1,1 +1,1 @@
-web: gunicorn programas_nutricion.wsgi
+web: gunicorn programas_nutricion.wsgi --log-file -
