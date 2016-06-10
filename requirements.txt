@@ -26,3 +26,4 @@ wheel==0.24.0
 gunicorn==18.0
 wsgiref==0.1.2
 psycopg2
+Virtualenv-15.0.2
