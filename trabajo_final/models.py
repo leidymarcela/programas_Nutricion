@@ -1,7 +1,7 @@
 
 from __future__ import unicode_literals
 from django.db import models
-from tinymce.models import HTMLField
+#from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 
 lst_sexo=(("M","masculino"),("F","femenino"))
