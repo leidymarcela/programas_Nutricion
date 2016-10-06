@@ -172,6 +172,8 @@ def guardar_beneficiario(request):
         request.session['error'] = 'El guardado no se pudo completar, comuniquese con el administrador del sistema'
         return HttpResponseRedirect('/registro_beneficiario')
 
+
+@login_required(login_url="/")
 def buscar_beneficiario(request):
     documento = request.GET['numero_documento']
     try:
@@ -185,6 +187,8 @@ def buscar_beneficiario(request):
         output = {'error': 0, 'resultado': 0}
         return HttpResponse(json.dumps(output),  content_type="application/json")
 
+
+@login_required(login_url="/")
 def buscar_barrios(request):
     barrio =  Barrio.objects.filter(comuna_id = request.GET['comuna'])
     data = serializers.serialize('json', barrio, fields=('id','name'))
@@ -308,12 +312,14 @@ def reportes(request):
     return render_to_string("plantilla_menu.html", { 'beneficiario': Beneficiario, 'path': STATICFILES_DIRS[0]}) #obtenemos la plantilla
 
 
+@login_required(login_url="/")
 def buscar(request):
     """view de los resultados de busqueda
     """
     return render_to_response('buscar.html', context_instance = RequestContext(request))
 
 
+@login_required(login_url="/")
 def index(request):
     """view principal
     """
@@ -323,6 +329,7 @@ def index(request):
 
 
 
+@login_required(login_url="/")
 def search(request):
     """view de los resultados de busqueda
     """
@@ -347,6 +354,7 @@ def home(request):
 
 
 
+@login_required(login_url="/")
 @transaction.atomic
 def post(request):
     programas=Programa.objects.all()
