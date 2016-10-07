@@ -12,7 +12,6 @@ numpy==1.8.2
 ply==3.4
 pyasn1==0.1.7
 pycparser==2.10
-pygobject==3.14.0
 pyOpenSSL==0.14
 python-debian==0.1.28
 python-debianbts==1.11
