@@ -48,7 +48,7 @@ def logon(request):
 
     return render_to_response('login/login.html', context_instance = RequestContext(request))
 
-@login_required(login_url="/")
+
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect("/")

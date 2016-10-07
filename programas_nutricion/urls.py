@@ -51,7 +51,7 @@ urlpatterns = [
     url(r'^post$',post, name='post'),
     url(r'^listado_programas', listado_programas, name='programa'),
     url(r'^admin/', admin.site.urls),
-    url(r'^tinymce/', include('tinymce.urls')),
+    #url(r'^tinymce/', include('tinymce.urls')),
     url(r'^buscar$',buscar, name='buscar'),
     url(r'^programas$',programas, name='programas'),
     url('^me$', me, name = 'me' ),

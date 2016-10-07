@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'tinymce',
     'trabajo_final',
 
 
@@ -146,12 +145,12 @@ USE_TZ = True
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [BASE_DIR + '/static']
 MEDIA_ROOT =  BASE_DIR + '/static'
 
-MEDIA_URL = '/static/'
+#MEDIA_URL = '/static/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
