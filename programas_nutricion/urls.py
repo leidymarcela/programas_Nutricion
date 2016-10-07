@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from trabajo_final.views import *
-from django.conf.urls import patterns
+#from django.conf.urls import patterns
 #from django.conf import settings
 #from django.conf.urls.static import static
 
@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^menu$', menu, name='menu'),
     url(r'^registro_beneficiario$', registro_beneficiario, name='registro'),
     url(r'^busqueda_beneficiario$', busqueda_beneficiario, name='busqueda'),
-    url(r'^buscar_beneficiario/$', buscar_beneficiario),
+    url(r'^buscar_beneficiario/$', buscar_beneficiario, name='buscar'),
     url(r'^lista_beneficiario$', lista_beneficiario, name='lista'),
     url(r'^listar_beneficiarios$', listar_beneficiario, name='lista_resultado'),
     url(r'^guardar_beneficiario$', guardar_beneficiario, name='guardar'),

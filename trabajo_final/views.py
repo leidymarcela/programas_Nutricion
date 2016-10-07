@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 import datetime
-
 from django.db import transaction
 from django.core import serializers
 from django.shortcuts import render, render_to_response
@@ -15,7 +14,6 @@ from django.db.models import Q
 from django.http import Http404
 from .models import *
 from validators import Validator
-import xhtml2pdf.pisa as pisa
 from StringIO  import StringIO
 from django.template.loader import render_to_string, get_template
 from programas_nutricion.settings import STATICFILES_DIRS
@@ -30,7 +28,7 @@ from .models import Usuario
 #login , logon y logout
 
 def login(request):
-     return render_to_response('login/login.html', context_instance = RequestContext(request))
+     return render(request, 'login/login.html')
 
 def logon(request):
 
@@ -44,9 +42,9 @@ def logon(request):
 
             return HttpResponseRedirect('/menu')
         else:
-            return render_to_response('login/login.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
+            return render(request, 'login/login.html', {'error': validator.getMessage() } )
 
-    return render_to_response('login/login.html', context_instance = RequestContext(request))
+    return render(request, 'login/login.html')
 
 
 def logout(request):
@@ -57,7 +55,7 @@ def logout(request):
 
 # manejo de dashboard
 def menu(request):
-    return render_to_response('dashboard/menu.html', context_instance = RequestContext(request))
+    return render(request, 'dashboard/menu.html')
 # fin de dashboard
 
 # manejo de beneficiarios
@@ -83,12 +81,12 @@ def registro_beneficiario(request):
     barrio = Barrio.objects.all()
     eps = Eps.objects.all()
 
-    return render_to_response('beneficiarios/registro_beneficiario.html', {'programa':programa, 'documento':documento, 'comuna':comuna, 'barrio':barrio, 'indicador':indicador,'respuesta':aviso, 'eps':eps},context_instance = RequestContext(request))
+    return render(request, 'beneficiarios/registro_beneficiario.html', {'programa':programa, 'documento':documento, 'comuna':comuna, 'barrio':barrio, 'indicador':indicador,'respuesta':aviso, 'eps':eps})
 
 @login_required(login_url="/")
 def lista_beneficiario(request):
     programa = Programa.objects.all()
-    return render_to_response('beneficiarios/lista_beneficiario.html',{'programa':programa}, context_instance = RequestContext(request))
+    return render(request, 'beneficiarios/lista_beneficiario.html',{'programa':programa})
 
 @login_required(login_url="/")
 def busqueda_beneficiario(request):
@@ -112,7 +110,7 @@ def busqueda_beneficiario(request):
     barrio = Barrio.objects.all()
     eps = Eps.objects.all()
 
-    return render_to_response('beneficiarios/busqueda_beneficiario.html', {'indicador':indicador,'respuesta':aviso, 'programa':programa, 'documento':documento, 'comuna':comuna, 'barrio':barrio, 'eps':eps}, context_instance = RequestContext(request))
+    return render(request, 'beneficiarios/busqueda_beneficiario.html', {'indicador':indicador,'respuesta':aviso, 'programa':programa, 'documento':documento, 'comuna':comuna, 'barrio':barrio, 'eps':eps})
 
 @login_required(login_url="/")
 def listar_beneficiario(request):
@@ -136,7 +134,7 @@ def listar_beneficiario(request):
         datos = {'fechainicial':request.POST['fechainicial'], 'fechafinal': request.POST['fechafinal'], 'programa':request.POST['programa']}
         request.session['lista_programas'] = datos
 
-        return  render_to_response('beneficiarios/lista_beneficiario.html', {'programa':programa,"resultado": busqueda, 'indicador':indicador, 'respuesta':respuesta}, context_instance = RequestContext(request))
+        return  render(request, 'beneficiarios/lista_beneficiario.html', {'programa':programa,"resultado": busqueda, 'indicador':indicador, 'respuesta':respuesta})
 
     except:
 
@@ -144,7 +142,7 @@ def listar_beneficiario(request):
         respuesta = 'no se pudo realizar la consulta, comuniquese con el administrador del sistema'
         busqueda = ''
 
-        return  render_to_response('beneficiarios/lista_beneficiario.html', {"resultado": busqueda, 'indicador':indicador, 'respuesta':respuesta}, context_instance = RequestContext(request))
+        return  render(request, 'beneficiarios/lista_beneficiario.html', {"resultado": busqueda, 'indicador':indicador, 'respuesta':respuesta})
 
 @login_required(login_url="/")
 def guardar_beneficiario(request):
@@ -286,12 +284,12 @@ def crear_usuario(request):
             usuario.save()
 
 
-            return render_to_response('usuarios/crear_usuario.html', {'success': True  } , context_instance = RequestContext(request))
+            return render(request, 'usuarios/crear_usuario.html', {'success': True  })
         else:
-            return render_to_response('usuarios/crear_usuario.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
+            return render(request, 'usuarios/crear_usuario.html', {'error': validator.getMessage() })
         # Agregar el usuario a la base de datos
    #
-    return render_to_response('usuarios/crear_usuario.html',{}, context_instance = RequestContext(request))
+    return render(request, 'usuarios/crear_usuario.html',{})
 
 
 # fin de usuarios
@@ -316,7 +314,7 @@ def reportes(request):
 def buscar(request):
     """view de los resultados de busqueda
     """
-    return render_to_response('buscar.html', context_instance = RequestContext(request))
+    return render(request, 'buscar.html')
 
 
 @login_required(login_url="/")
@@ -325,7 +323,7 @@ def index(request):
     """
 
 
-    return render_to_response('index.html', context_instance = RequestContext(request) )
+    return render(request, 'index.html')
 
 
 
@@ -343,13 +341,13 @@ def search(request):
         beneficiarios = Beneficiario.objects.filter(qset)
 
 
-    return render_to_response('buscar.html', {'beneficiarios': beneficiarios, 'filtro': filter  }, context_instance = RequestContext(request))
+    return render(request, 'buscar.html', {'beneficiarios': beneficiarios, 'filtro': filter  })
 
 @login_required(login_url="/login")
 def home(request):
     """view de los resultados de busqueda
     """
-    return render_to_response('about.html', context_instance = RequestContext(request))
+    return render(request, 'about.html')
 
 
 
@@ -385,11 +383,11 @@ def post(request):
             beneficiarios.is_active = True
             beneficiarios.save()
 
-            return render_to_response('post.html', {'success': True} , context_instance = RequestContext(request))
+            return render(request, 'post.html', {'success': True})
         else:
-            return render_to_response('post.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
+            return render(request, 'post.html', {'error': validator.getMessage() })
         # Agregar el usuario a la base de datos
-    return render_to_response('post.html',{'programas':programas, 'barrios':barrios,'comunas':comunas,'documentos':documentos}, context_instance = RequestContext(request))
+    return render(request, 'post.html',{'programas':programas, 'barrios':barrios,'comunas':comunas,'documentos':documentos})
 
 
 
@@ -424,28 +422,28 @@ def contact(request):
             usuario.save()
 
 
-            return render_to_response('contact.html', {'success': True  } , context_instance = RequestContext(request))
+            return render(request, 'contact.html', {'success': True  })
         else:
-            return render_to_response('contact.html', {'error': validator.getMessage() } , context_instance = RequestContext(request))
+            return render(request, 'contact.html', {'error': validator.getMessage() })
         # Agregar el usuario a la base de datos
-    return render_to_response('contact.html', context_instance = RequestContext(request))
+    return render(request, 'contact.html')
 
 @login_required(login_url='/login')
 def regster(request):
     if request.user.groups.filter(id = 2).exists():
-        return render_to_response('post.html', context_instance = RequestContext(request))
+        return render(request, 'post.html')
     else:
         return HttpResponseRedirect('/login')
 
 
 def listado_programas(request):
     rows = Beneficiario.objects.filter(programa_id =  request.GET['programa'])
-    return render_to_response('programas.html', {'rows': rows} , context_instance = RequestContext(request))
+    return render(request, 'programas.html', {'rows': rows})
 
 
 def programas(request):
      rows = Beneficiario.objects.filter(programa_id =  request.GET['programa'])
-     return render_to_response('programas.html', {'rows': rows} , context_instance = RequestContext(request))
+     return render(request, 'programas.html', {'rows': rows})
 
 @login_required(login_url="/login")
 def me(request):
@@ -456,6 +454,6 @@ def me(request):
 
     usuario = User.objects.get( id = request.user.id )
 
-    return render_to_response('about.html', { "usuario": usuario, } , context_instance = RequestContext(request))
+    return render(request, 'about.html', { "usuario": usuario, })
 
 
