@@ -14,7 +14,7 @@ pyasn1==0.1.7
 pycparser==2.10
 pygobject==3.14.0
 pyOpenSSL==0.14
-python-debian==0.1.28
+python-debian== 2.28.3
 python-debianbts==1.11
 reportbug==6.6.3
 requests==2.4.3
